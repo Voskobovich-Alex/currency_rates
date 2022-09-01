@@ -49,7 +49,9 @@ class VoskoCurrencyRates extends CBitrixComponent implements Controllerable{
                 /*
                     Сравнение дат - если меньше текущей - то делаем запрос для обновления курсов в таблице hr_rates
                 */
-                if($dateTable[0] < date('d.m.Y')){
+                $result=(strtotime($dateTable[0])<strtotime( date('d.m.Y')));
+
+                if($result){
                     $req = new Currency\RequestRates();
                     $req->getRates();
                     $arReq = $req->rateList();
@@ -58,7 +60,7 @@ class VoskoCurrencyRates extends CBitrixComponent implements Controllerable{
     
                     unset($arrTabble);
                     $arrTabble = $table -> getCurrencyTable();
-                    
+                    $this->clearResultCache();
                 }
             }else{
                  /*
